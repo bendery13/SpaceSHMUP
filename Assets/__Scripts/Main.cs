@@ -18,6 +18,11 @@ public class Main : MonoBehaviour
     {
         S = this; // Set the Singleton
         bndCheck = GetComponent<BoundsCheck>();
+        if (bndCheck == null)
+        {
+            // Main uses camera bounds for spawning; ensure a BoundsCheck exists.
+            bndCheck = gameObject.AddComponent<BoundsCheck>();
+        }
 
         // Invoke SpawnEnemy() once (in 2 seconds), then continue to invoke SpawnEnemy() once per enemySpawnPerSecond seconds
         Invoke(nameof(SpawnEnemy), 1f / enemySpawnPerSecond);
@@ -25,8 +30,19 @@ public class Main : MonoBehaviour
 
     public void SpawnEnemy()
     {
+        if (prefabEnemies == null || prefabEnemies.Length == 0)
+        {
+            Debug.LogError("Main.SpawnEnemy() - prefabEnemies is empty. Assign enemy prefabs in the Inspector.");
+            return;
+        }
+
         // Pick a random Enemy prefab to instantiate
         int ndx = Random.Range(0, prefabEnemies.Length);
+        if (prefabEnemies[ndx] == null)
+        {
+            Debug.LogError("Main.SpawnEnemy() - Selected enemy prefab is null.");
+            return;
+        }
         GameObject go = Instantiate<GameObject>(prefabEnemies[ndx]);
 
         // Position the Enemy above the screen with a random x position

@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     void Awake()
     {
         bndCheck = GetComponent<BoundsCheck>();
+        bndCheck.keepOnScreen = false;
     }
 
     // This is a property: A method that acts like a field

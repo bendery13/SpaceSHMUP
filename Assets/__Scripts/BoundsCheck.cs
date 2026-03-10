@@ -50,34 +50,33 @@ public class BoundsCheck : MonoBehaviour
         // Restrict the X position to camWidth
         if (pos.x > camWidth + checkRadius)
         {
-            pos.x = camWidth + checkRadius;
             screenLocs |= eScreenLocs.offRight; // This adds the offRight flag to screenLocs
+            if (keepOnScreen) pos.x = camWidth + checkRadius;
             // isOnScreen = false;
         }
         if (pos.x < -camWidth - checkRadius)
         {
-            pos.x = -camWidth - checkRadius;
             screenLocs |= eScreenLocs.offLeft; // This adds the offLeft flag to screenLocs
+            if (keepOnScreen) pos.x = -camWidth - checkRadius;
             // isOnScreen = false;
         }
 
         // Restrict the Y position to camHeight
         if (pos.y > camHeight + checkRadius)
         {
-            pos.y = camHeight + checkRadius;
             screenLocs |= eScreenLocs.offUp; // This adds the offUp flag to screenLocs
+            if (keepOnScreen) pos.y = camHeight + checkRadius;
             // isOnScreen = false;
         }
         if (pos.y < -camHeight - checkRadius)
         {
-            pos.y = -camHeight - checkRadius;
             screenLocs |= eScreenLocs.offDown; // This adds the offDown flag to screenLocs
+            if (keepOnScreen) pos.y = -camHeight - checkRadius;
             // isOnScreen = false;
         }
 
         if (keepOnScreen && !isOnScreen){
             transform.position = pos;
-            screenLocs = eScreenLocs.onScreen; // This resets screenLocs to onScreen
             // isOnScreen = true;
         }
     }
