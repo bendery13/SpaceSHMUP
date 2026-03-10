@@ -11,6 +11,7 @@ public class Main : MonoBehaviour
     public GameObject[] prefabEnemies; // Array of Enemy prefabs
     public float enemySpawnPerSecond = 0.5f; // # Enemies/second
     public float enemyInsetDefault = 1.5f; // Padding for position the spawned enemies
+    public float gameRestartDelay = 2f; // Time to wait before restarting the scene
 
     private BoundsCheck bndCheck;
 
@@ -64,15 +65,21 @@ public class Main : MonoBehaviour
         Invoke(nameof(SpawnEnemy), 1f / enemySpawnPerSecond);
     }
 
-    // Start is called before the first frame update
-    void Start()
+    void DelayedRestart()
     {
-        
+        // Invoke the Restart() method in delay seconds
+        Invoke(nameof(Restart), gameRestartDelay);
     }
 
-    // Update is called once per frame
-    void Update()
+    void Restart()
     {
-        
+       // Reload _Scene_0 to restart the game
+        SceneManager.LoadScene("__Scene_0"); 
+    }
+
+    static public void HERO_DIED()
+    {
+        // Call the DelayedRestart() method on the singleton Main instance
+        S.DelayedRestart();
     }
 }
