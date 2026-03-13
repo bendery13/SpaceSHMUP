@@ -6,12 +6,15 @@ using UnityEngine.SceneManagement;
 public class Main : MonoBehaviour
 {
     static private Main S; // Singleton
+    static private Dictionary<eWeaponType, WeaponDefinition> WEAP_DICT; 
 
     [Header("Inscribed")]
+    public bool spawnEnemies = true;
     public GameObject[] prefabEnemies; // Array of Enemy prefabs
     public float enemySpawnPerSecond = 0.5f; // # Enemies/second
     public float enemyInsetDefault = 1.5f; // Padding for position the spawned enemies
     public float gameRestartDelay = 2f; // Time to wait before restarting the scene
+    public WeaponDefinition[] weaponDefinitions; // Array of WeaponDefinintions
 
     private BoundsCheck bndCheck;
 
@@ -27,10 +30,22 @@ public class Main : MonoBehaviour
 
         // Invoke SpawnEnemy() once (in 2 seconds), then continue to invoke SpawnEnemy() once per enemySpawnPerSecond seconds
         Invoke(nameof(SpawnEnemy), 1f / enemySpawnPerSecond);
+
+        // A generic Dictionary with eWeaponType as the key
+        WEAP_DICT = new Dictionary<eWeaponType, WeaponDefinition>();
+        foreach (WeaponDefinition def in weaponDefinitions)
+        {
+            WEAP_DICT[def.type] = def;
+        }
     }
 
     public void SpawnEnemy()
     {
+        if (!spawnEnemies)
+        {
+            Invoke(nameof(SpawnEnemy), 1f / enemySpawnPerSecond);
+            return;
+        }
         if (prefabEnemies == null || prefabEnemies.Length == 0)
         {
             Debug.LogError("Main.SpawnEnemy() - prefabEnemies is empty. Assign enemy prefabs in the Inspector.");
@@ -82,4 +97,16 @@ public class Main : MonoBehaviour
         // Call the DelayedRestart() method on the singleton Main instance
         S.DelayedRestart();
     }
+    
+    static public WeaponDefinition GET_WEAPON_DEFINITION(eWeaponType wt)
+    {
+        // Check to make sure that the key exists in the Dictionary
+        if (WEAP_DICT.ContainsKey(wt))
+        {
+            return (WEAP_DICT[wt]);
+        }
+        // This will return a definition for eWeaponType.none, which has the "none" string and a white color. This way, it will return something even if we forgot to define the key in the Inspector.
+        return (new WeaponDefinition());
+    }
+    
 }
