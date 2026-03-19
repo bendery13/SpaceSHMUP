@@ -10,9 +10,9 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("__Scene_0");
     }
 
-    public void SettingsButton()
+    public void ControlsButton()
     {
-        Debug.Log("Settings button clicked");
+        Debug.Log("Controls button clicked");
     }
     public void QuitGame()
     {
