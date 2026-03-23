@@ -23,6 +23,8 @@ public class ProjectileHero : MonoBehaviour
     void Awake()
     {
         bndCheck = GetComponent<BoundsCheck>();
+        rigid = GetComponent<Rigidbody>();
+        rend = GetComponent<Renderer>();
     }
 
     // Update is called once per frame

@@ -20,6 +20,12 @@ public class Hero : MonoBehaviour
     [Tooltip("This field holds a reference to the last triggering GameObject")]
     private GameObject lastTriggerGo = null;
 
+    // Declare a new delegate type
+    public delegate void WeaponFireDelegate();
+
+    // Create a weaponFireDelegate event named fireEvent
+    public event WeaponFireDelegate fireEvent;
+
     void Awake()
     {
         if (S == null)
@@ -30,6 +36,7 @@ public class Hero : MonoBehaviour
         {
             Debug.LogError("Hero.Awake() - Attempted to assign second Hero.S!");
         }
+        //fireEvent += TempFire;
     }
 
     // Update is called once per frame
@@ -49,19 +56,30 @@ public class Hero : MonoBehaviour
         transform.rotation = Quaternion.Euler(vAxis * pitchMult, hAxis * rollMult, 0);
 
         // Allow the ship to fire
-        if (Input.GetKeyDown(KeyCode.Space))
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    TempFire();
+        //}
+
+        // Use the fireEvent to fire weapons when spacebar is pressed
+        if (Input.GetAxis("Jump") == 1 && fireEvent != null)
         {
-            TempFire();
+            fireEvent();
         }
     }
 
-    void TempFire()
-    {
-        GameObject projGo = Instantiate<GameObject>(projectilePrefab);
-        projGo.transform.position = transform.position;
-        Rigidbody rigidB = projGo.GetComponent<Rigidbody>();
-        rigidB.velocity = Vector3.up * projectileSpeed;
-    }
+    //void TempFire()
+    //{
+    //    GameObject projGo = Instantiate<GameObject>(projectilePrefab);
+    //    projGo.transform.position = transform.position;
+    //    Rigidbody rigidB = projGo.GetComponent<Rigidbody>();
+        // rigidB.velocity = Vector3.up * projectileSpeed;
+
+    //    ProjectileHero proj = projGo.GetComponent<ProjectileHero>();
+    //    proj.type = eWeaponType.blaster;
+    //    float tSpeed = Main.GET_WEAPON_DEFINITION(proj.type).velocity;
+    //    rigidB.velocity = Vector3.up * tSpeed;
+    //}
 
     void OnTriggerEnter(Collider other)
     {
