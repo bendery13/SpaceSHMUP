@@ -18,6 +18,8 @@ public class Enemy_3 : Enemy
     //Again, Start works well because it is not used in the Enemy superclass
     void Start()
     {
+        score = 200;
+
         points = new Vector3[3];
 
         points[0] = pos;

@@ -72,6 +72,8 @@ public class Enemy : MonoBehaviour
                 health -= Main.GET_WEAPON_DEFINITION(p.type).damageOnHit;
                 if (health <= 0)
                 {
+                    ScoreCounter.AddScore(score);
+                    HighScore.TRY_SET_HIGH_SCORE(ScoreCounter.SCORE);
                     // Tell Main that this ship has been destroyed
                     if (!calledShipDestroyed)
                     {

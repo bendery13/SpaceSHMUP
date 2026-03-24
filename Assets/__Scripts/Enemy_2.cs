@@ -20,6 +20,8 @@ public class Enemy_2 : Enemy
     // Start is called before the first frame update
     void Start()
     {
+        score = 150;
+
         // Pick andy point on the left side of the screen
         p0 = Vector3.zero;
         p0.x = -bndCheck.camWidth - bndCheck.radius;

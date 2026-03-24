@@ -17,6 +17,7 @@ public class Enemy_1 : Enemy
 
     void Start()
     {
+        score = 100;
         x0 = pos.x;
         birthTime = Time.time;
     }
