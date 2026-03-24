@@ -14,8 +14,11 @@ public class Main : MonoBehaviour
     public float enemySpawnPerSecond = 0.5f; // # Enemies/second
     public float enemyInsetDefault = 1.5f; // Padding for position the spawned enemies
     public float gameRestartDelay = 2f; // Time to wait before restarting the scene
+    public GameObject prefabPowerUp; // A prefab for the PowerUp
     public WeaponDefinition[] weaponDefinitions; // Array of WeaponDefinintions
-
+    public eWeaponType[] powerUpFrequency = new eWeaponType[] {
+      eWeaponType.blaster, eWeaponType.blaster, 
+      eWeaponType.spread, eWeaponType.shield  };
     private BoundsCheck bndCheck;
 
     void Awake()
@@ -108,5 +111,28 @@ public class Main : MonoBehaviour
         // This will return a definition for eWeaponType.none, which has the "none" string and a white color. This way, it will return something even if we forgot to define the key in the Inspector.
         return (new WeaponDefinition());
     }
-    
+
+    /// <summary>
+    ///  Called by an Enemy when it is destroyed. It may or may not 
+    /// cause a PowerUp to be created.
+    ///  <summary>
+    static public void SHIP_DESTROYED(Enemy e)
+    {
+        // Potentially generate a PowerUp
+        if (Random.value < e.powerUpDropChance)
+        {
+            // Choose which PowerUp to pick
+            int ndx = Random.Range(0, S.powerUpFrequency.Length);
+            eWeaponType pUpType = S.powerUpFrequency[ndx];
+
+            // Spawn a PowerUp
+            GameObject go = Instantiate<GameObject>(S.prefabPowerUp);
+            PowerUp pUp = go.GetComponent<PowerUp>();
+            pUp.SetType(pUpType);
+
+            // Set the PowerUp to the position of the destroyed ship
+            pUp.transform.position = e.transform.position;
+        }
+    }
+
 }
