@@ -7,6 +7,8 @@ public class Main : MonoBehaviour
 {
     static private Main S; // Singleton
     static private Dictionary<eWeaponType, WeaponDefinition> WEAP_DICT; 
+    static private bool runInProgress = false;
+    static private int livesRemaining = 0;
 
     [Header("Inscribed")]
     public bool spawnEnemies = true;
@@ -14,21 +16,40 @@ public class Main : MonoBehaviour
     public float enemySpawnPerSecond = 0.5f; // # Enemies/second
     public float enemyInsetDefault = 1.5f; // Padding for position the spawned enemies
     public float gameRestartDelay = 2f; // Time to wait before restarting the scene
+    public int startingLives = 2;
     public GameObject prefabPowerUp; // A prefab for the PowerUp
+    public GameOverScreen gameOverScreen;
     public WeaponDefinition[] weaponDefinitions; // Array of WeaponDefinintions
     public eWeaponType[] powerUpFrequency = new eWeaponType[] {
       eWeaponType.blaster, eWeaponType.blaster, 
       eWeaponType.spread, eWeaponType.shield  };
+    [Header("Dynamic")]
+    [SerializeField] private int numLives;
     private BoundsCheck bndCheck;
 
     void Awake()
     {
         S = this; // Set the Singleton
+
+        // Initialize a brand-new run only once; life-restart scene loads keep state.
+        if (!runInProgress)
+        {
+            runInProgress = true;
+            livesRemaining = startingLives;
+            ScoreCounter.ResetScore();
+        }
+
+        numLives = livesRemaining;
         bndCheck = GetComponent<BoundsCheck>();
         if (bndCheck == null)
         {
             // Main uses camera bounds for spawning; ensure a BoundsCheck exists.
             bndCheck = gameObject.AddComponent<BoundsCheck>();
+        }
+
+        if (gameOverScreen != null)
+        {
+            gameOverScreen.gameObject.SetActive(false);
         }
 
         // Invoke SpawnEnemy() once (in 2 seconds), then continue to invoke SpawnEnemy() once per enemySpawnPerSecond seconds
@@ -97,8 +118,35 @@ public class Main : MonoBehaviour
 
     static public void HERO_DIED()
     {
+        livesRemaining--;
+        S.numLives = livesRemaining;
+
+        if (livesRemaining <= 0)
+        {
+            S.GameOver();
+            return;
+        }
+
         // Call the DelayedRestart() method on the singleton Main instance
         S.DelayedRestart();
+    }
+
+    void GameOver()
+    {
+        runInProgress = false;
+        spawnEnemies = false;
+        CancelInvoke(nameof(SpawnEnemy));
+
+        int finalScore = ScoreCounter.SCORE;
+
+        if (gameOverScreen != null)
+        {
+            gameOverScreen.SetUp(finalScore);
+        }
+        else
+        {
+            Debug.LogWarning("Main.GameOver() - gameOverScreen is not assigned in the Inspector.");
+        }
     }
     
     static public WeaponDefinition GET_WEAPON_DEFINITION(eWeaponType wt)
