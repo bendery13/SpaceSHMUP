@@ -149,6 +149,11 @@ public class Main : MonoBehaviour
         }
     }
     
+    static public int LIVES
+    {
+        get { return livesRemaining; }
+    }
+
     static public WeaponDefinition GET_WEAPON_DEFINITION(eWeaponType wt)
     {
         // Check to make sure that the key exists in the Dictionary

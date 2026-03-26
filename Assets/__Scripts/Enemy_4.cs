@@ -13,6 +13,7 @@ public class Enemy_4 : Enemy
     private float timeStart;
     void Start()
     {
+        score = 350;
         allShields = GetComponentsInChildren<EnemyShield>();
         thisShield = GetComponent<EnemyShield>();
 
