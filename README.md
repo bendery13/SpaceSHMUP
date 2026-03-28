@@ -9,7 +9,7 @@
 
 ## Project Overview
 
-SpaceSHMUP is a vertical-scrolling space shooter where the player pilots a hero ship against waves of enemies with increasingly complex behaviors. Survive as long as possible, collect power-ups to upgrade your weapons and shields, and climb the high score leaderboard.
+SpaceSHMUP is a vertical-scrolling space shooter where the player pilots a hero ship against waves of enemies with increasingly complex behaviors. Survive as long as possible, collect power-ups to upgrade your weapons and shields, and climb the high score leaderboard. The game can be played through Unity Hub here: [Space SHMUP Game](https://play.unity.com/en/games/bda9948e-5f68-43d1-a826-5e2ada60e5a9/space-shmup)
 
 The game demonstrates foundational Unity concepts, including:
 
