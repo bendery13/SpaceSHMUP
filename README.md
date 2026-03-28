@@ -29,11 +29,11 @@ The game demonstrates foundational Unity concepts, including:
 
 ## Added Element — "To Make the Game Cooler in a Meaningful Way"
 
-To make the game cooler in a meaningful way, we focused on giving players better information at every stage of a run — during gameplay, at death, and across sessions — because information is what turns a passive experience into an intentional one.
+To make the game cooler in a meaningful way, we focused on giving players better information at every stage of a run, during gameplay, at death, and across sessions because information is what turns a passive experience into an intentional one.
 
-During gameplay, a **live score counter** and a **lives counter** are always visible on the HUD. The score updates in real time as enemies are destroyed, rewarding higher-value targets like Enemy_4 with more points than basic enemies, which gives players a reason to prioritize dangerous ships instead of just dodging them. The lives counter works alongside this by raising the stakes of every decision, when a player can see they are down to their last life, every enemy and every movement carries real weight. Together, these two elements transform the HUD from a status display into a source of constant tension and motivation that keeps players engaged from the first enemy to the last.
+During gameplay, a live score counter and a **lives counter** are always visible on the HUD. The score updates in real time as enemies are destroyed, rewarding higher-value targets like Enemy_4 with more points than basic enemies, which gives players a reason to prioritize dangerous ships instead of just dodging them. The lives counter works alongside this by raising the stakes of every decision: when a player sees they are down to their last life, every enemy and every movement carries real weight. Together, these two elements transform the HUD from a status display into a source of constant tension and motivation that keeps players engaged from the first enemy to the last.
 
-When a run ends, that tension carries over into the **persistent top-8 high score leaderboard** shown on the Game Over screen, stored via `PlayerPrefs`. A single saved score gives a player one number to beat; a leaderboard gives them eight, ranked by their best performances across every session. Players can see exactly how far their latest run fell short, which run was their personal best, and how much room they have to improve. This turns the Game Over screen from a dead end into a starting line — the kind of feedback loop that makes players want to immediately try again.
+When a run ends, the persistent top-8 high scores are shown on the Game Over screen, stored via `PlayerPrefs`. Players can see exactly how far their latest run fell short and which run was their personal best. This turns the Game Over screen from a dead end into a starting line, the kind of feedback loop that makes players want to immediately try again.
 
 
 ---
